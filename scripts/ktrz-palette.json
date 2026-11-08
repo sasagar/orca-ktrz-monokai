@@ -1,0 +1,21 @@
+{
+  "_comment": "KTRZ Monokai core palette, derived from ixkaito/ktrz-monokai (MIT). bg* are UI surfaces; the named hues are the Monokai syntax colors. 'accent' is KTRZ's signature chrome blue (#2095f0), which is a KTRZ addition on top of the classic Monokai palette.",
+  "bg": "#26292c",
+  "bgDark": "#1e2123",
+  "bgLight": "#313437",
+  "bgLighter": "#3b3e41",
+  "line": "#3b3e41",
+  "comment": "#5c6166",
+  "muted": "#8b9399",
+  "mutedDim": "#7a8288",
+  "fg": "#f8f8f8",
+  "accent": "#2095f0",
+  "red": "#f92672",
+  "orange": "#fd971f",
+  "yellow": "#e6db74",
+  "green": "#a6e22e",
+  "purple": "#ae81ff",
+  "cyan": "#66d9ef",
+  "deleted": "#d2304b",
+  "strike": "#ffe6b3"
+}

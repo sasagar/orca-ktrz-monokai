@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/stablyai/orca/main/docs/schemas/plugins/orca-plugin.v2.schema.json",
+  "manifestVersion": 2,
+  "id": "ktrz-monokai",
+  "publisher": "sasagar",
+  "name": "KTRZ Monokai for Orca",
+  "version": "1.0.0",
+  "execution": "data",
+  "description": "A port of the KTRZ Monokai color scheme to Orca: a flat, dark Monokai theme with a matching terminal theme and syntax colors.",
+  "license": "MIT",
+  "repository": "https://github.com/sasagar/orca-ktrz-monokai",
+  "engines": {
+    "orca": ">=1.4.245"
+  },
+  "contributes": {
+    "themes": [
+      {
+        "id": "ktrz-monokai",
+        "title": "KTRZ Monokai",
+        "path": "themes/ktrz-monokai.json"
+      }
+    ],
+    "terminalThemes": [
+      {
+        "id": "ktrz-monokai",
+        "title": "KTRZ Monokai",
+        "path": "terminal/ktrz-monokai.json"
+      }
+    ]
+  },
+  "capabilities": []
+}
