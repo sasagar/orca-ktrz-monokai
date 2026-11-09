@@ -9,6 +9,7 @@
   "muted": "#8b9399",
   "mutedDim": "#7a8288",
   "fg": "#f8f8f8",
+  "onAccent": "#f8f8f8",
   "accent": "#2095f0",
   "red": "#f92672",
   "orange": "#fd971f",
@@ -17,5 +18,11 @@
   "purple": "#ae81ff",
   "cyan": "#66d9ef",
   "deleted": "#d2304b",
-  "strike": "#ffe6b3"
+  "strike": "#ffe6b3",
+  "termBg": "#1e2123",
+  "termFg": "#f8f8f8",
+  "ansiBlack": "#1e2123",
+  "ansiBrightBlack": "#5c6166",
+  "ansiWhite": "#f8f8f8",
+  "ansiBrightWhite": "#f8f8f8"
 }

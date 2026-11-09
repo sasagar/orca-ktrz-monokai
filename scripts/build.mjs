@@ -1,10 +1,12 @@
-// Build Orca theme + terminal theme from the KTRZ Monokai palette.
+// Build Orca themes + terminal themes from the KTRZ Monokai palettes.
 //
 //   node scripts/build.mjs          regenerate themes/ and terminal/
 //   node scripts/build.mjs --check  fail if the generated files are stale
 //
-// Palette source: scripts/ktrz-palette.json (derived from ixkaito/ktrz-monokai, MIT).
-// Do not edit themes/*.json or terminal/*.json by hand — change the palette or the
+// Palette sources (derived from ixkaito/ktrz-monokai, MIT):
+//   scripts/ktrz-palette.json        dark
+//   scripts/ktrz-palette-light.json  light companion (darkened hues)
+// Do not edit themes/*.json or terminal/*.json by hand — change a palette or the
 // mapping below and rebuild.
 
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
@@ -12,7 +14,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const p = JSON.parse(readFileSync(join(root, "scripts/ktrz-palette.json"), "utf8"));
+const load = (f) => JSON.parse(readFileSync(join(root, "scripts", f), "utf8"));
 
 // --- color helpers ---------------------------------------------------------
 const hex = (c) => {
@@ -28,7 +30,7 @@ const mix = (base, over, t) => {
 };
 
 // --- UI tokens (Orca app chrome) ------------------------------------------
-const tokens = {
+const buildTokens = (p) => ({
   "--background": p.bg,
   "--editor-surface": p.bg,
   "--foreground": p.fg,
@@ -37,7 +39,7 @@ const tokens = {
   "--popover": p.bgLight,
   "--popover-foreground": p.fg,
   "--primary": p.accent,
-  "--primary-foreground": p.fg,
+  "--primary-foreground": p.onAccent,
   "--secondary": p.bgLight,
   "--secondary-foreground": p.fg,
   "--muted": p.bgDark,
@@ -55,12 +57,12 @@ const tokens = {
   "--sidebar": p.bgLight,
   "--sidebar-foreground": p.muted,
   "--sidebar-primary": p.accent,
-  "--sidebar-primary-foreground": p.fg,
+  "--sidebar-primary-foreground": p.onAccent,
   "--sidebar-accent": p.bg,
   "--sidebar-accent-foreground": p.fg,
   "--sidebar-border": p.bgDark,
   "--sidebar-ring": p.accent,
-  "--worktree-sidebar-active": mix(p.bg, p.accent, 0.18), // derived blue tint
+  "--worktree-sidebar-active": mix(p.bg, p.accent, 0.18), // derived accent tint
   "--tab-bar": p.bgLight,
   "--tab-active": p.bg,
   "--tab-active-foreground": p.fg,
@@ -72,8 +74,8 @@ const tokens = {
   "--chat-user-message": p.bgDark,
   "--text-link": p.accent,
   "--diff-added": p.green,
-  "--diff-added-background": mix(p.bgDark, p.green, 0.12),   // derived
-  "--diff-added-emphasis": mix(p.bgDark, p.green, 0.22),     // derived
+  "--diff-added-background": mix(p.bgDark, p.green, 0.12),     // derived
+  "--diff-added-emphasis": mix(p.bgDark, p.green, 0.22),       // derived
   "--diff-removed": p.deleted,
   "--diff-removed-background": mix(p.bgDark, p.deleted, 0.12), // derived
   "--diff-removed-emphasis": mix(p.bgDark, p.deleted, 0.22),   // derived
@@ -84,11 +86,11 @@ const tokens = {
   "--git-decoration-untracked": p.green,
   "--git-decoration-copied": p.green,
   "--git-decoration-ignored": p.comment,
-};
+});
 
 // --- Syntax (TextMate scopes), faithful to KTRZ Monokai -------------------
 const fg = (foreground, fontStyle) => (fontStyle ? { foreground, fontStyle } : { foreground });
-const tokenColors = [
+const buildTokenColors = (p) => [
   { name: "Comments", scope: ["comment", "punctuation.definition.comment"], settings: fg(p.comment) },
   { name: "Strings", scope: ["string", "punctuation.definition.string", "markup.inline.raw", "markup.raw"], settings: fg(p.yellow) },
   { name: "Regular expressions", scope: ["string.regexp"], settings: fg(p.yellow) },
@@ -126,42 +128,48 @@ const tokenColors = [
   { name: "Invalid", scope: ["invalid", "invalid.deprecated"], settings: fg(p.fg) },
 ];
 
-const theme = { base: "dark", tokens, tokenColors };
+const buildTheme = (p, base) => ({ base, tokens: buildTokens(p), tokenColors: buildTokenColors(p) });
 
-const terminal = {
+const buildTerminal = (p, mode) => ({
   schemaVersion: 1,
-  mode: "dark",
+  mode,
   terminal: {
-    background: p.bgDark,
-    foreground: p.fg,
+    background: p.termBg,
+    foreground: p.termFg,
     cursor: p.fg,
     selectionBackground: mix(p.bg, p.fg, 0.18),
     selectionForeground: p.fg,
-    cursorAccent: p.bgDark,
-    black: p.bgDark,
+    cursorAccent: p.termBg,
+    black: p.ansiBlack,
     red: p.red,
     green: p.green,
     yellow: p.yellow,
     blue: p.purple,
     magenta: p.red,
     cyan: p.cyan,
-    white: p.fg,
-    brightBlack: p.comment,
+    white: p.ansiWhite,
+    brightBlack: p.ansiBrightBlack,
     brightRed: p.deleted,
     brightGreen: p.green,
     brightYellow: p.yellow,
     brightBlue: p.purple,
     brightMagenta: p.red,
     brightCyan: p.cyan,
-    brightWhite: p.fg,
+    brightWhite: p.ansiBrightWhite,
   },
+});
+
+// --- variants --------------------------------------------------------------
+const dark = load("ktrz-palette.json");
+const light = load("ktrz-palette-light.json");
+const outputs = {
+  "themes/ktrz-monokai.json": buildTheme(dark, "dark"),
+  "themes/ktrz-monokai-light.json": buildTheme(light, "light"),
+  "terminal/ktrz-monokai.json": buildTerminal(dark, "dark"),
+  "terminal/ktrz-monokai-light.json": buildTerminal(light, "light"),
 };
 
 // --- emit ------------------------------------------------------------------
-const outputs = {
-  "themes/ktrz-monokai.json": theme,
-  "terminal/ktrz-monokai.json": terminal,
-};
 const check = process.argv.includes("--check");
 let stale = false;
 for (const [rel, data] of Object.entries(outputs)) {

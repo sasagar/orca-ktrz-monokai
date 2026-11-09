@@ -1,8 +1,15 @@
 # KTRZ Monokai for Orca
 
 A port of the [KTRZ Monokai](https://github.com/ixkaito/ktrz-monokai) color
-scheme to [Orca](https://www.onorca.dev). A flat, dark Monokai theme with a
-matching terminal theme and syntax colors.
+scheme to [Orca](https://www.onorca.dev). Flat Monokai themes with matching
+terminal themes and syntax colors.
+
+Themes:
+
+- **KTRZ Monokai** — the original dark theme.
+- **KTRZ Monokai Light** — a light companion. KTRZ has no official light
+  variant, so this keeps the Monokai hue families but darkens them for readable
+  contrast on a light background.
 
 Requires Orca `>= 1.4.245`.
 
@@ -13,8 +20,10 @@ Requires Orca `>= 1.4.245`.
 1. Clone this repo (or `ghq get sasagar/orca-ktrz-monokai`).
 2. In Orca: **Settings → Plugins → Add plugin → From a folder…**
 3. Pick this folder, review the requested access, and enable it.
-4. **Settings → Appearance** → set **KTRZ Monokai** as the dark theme.
-5. In the terminal settings, choose the **KTRZ Monokai** terminal theme.
+4. **Settings → Appearance** → set **KTRZ Monokai** as the dark theme and
+   **KTRZ Monokai Light** as the light theme (or pick either one directly).
+5. In the terminal settings, choose the matching **KTRZ Monokai** /
+   **KTRZ Monokai Light** terminal theme.
 
 ### From the Orca plugin directory (after publishing)
 
@@ -44,8 +53,10 @@ node scripts/build.mjs          # regenerate
 node scripts/build.mjs --check  # verify the committed files are up to date
 ```
 
-- `scripts/ktrz-palette.json` — the core KTRZ Monokai colors.
-- `scripts/build.mjs` — maps the palette to Orca's UI tokens and syntax scopes.
+- `scripts/ktrz-palette.json` — the core (dark) KTRZ Monokai colors.
+- `scripts/ktrz-palette-light.json` — the light companion palette.
+- `scripts/build.mjs` — maps each palette to Orca's UI tokens and syntax
+  scopes, emitting both the app and terminal theme files.
 
 Most colors map 1:1 from the original KTRZ VS Code theme. A few Orca-only UI
 tokens (selection tint, diff backgrounds) are **derived** by compositing a

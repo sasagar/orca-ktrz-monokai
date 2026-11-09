@@ -4,9 +4,9 @@
   "id": "ktrz-monokai",
   "publisher": "sasagar",
   "name": "KTRZ Monokai for Orca",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "execution": "data",
-  "description": "A port of the KTRZ Monokai color scheme to Orca: a flat, dark Monokai theme with a matching terminal theme and syntax colors.",
+  "description": "A port of the KTRZ Monokai color scheme to Orca: flat Monokai themes (dark and light) with matching terminal themes and syntax colors.",
   "license": "MIT",
   "repository": "https://github.com/sasagar/orca-ktrz-monokai",
   "engines": {
@@ -18,6 +18,11 @@
         "id": "ktrz-monokai",
         "title": "KTRZ Monokai",
         "path": "themes/ktrz-monokai.json"
+      },
+      {
+        "id": "ktrz-monokai-light",
+        "title": "KTRZ Monokai Light",
+        "path": "themes/ktrz-monokai-light.json"
       }
     ],
     "terminalThemes": [
@@ -25,6 +30,11 @@
         "id": "ktrz-monokai",
         "title": "KTRZ Monokai",
         "path": "terminal/ktrz-monokai.json"
+      },
+      {
+        "id": "ktrz-monokai-light",
+        "title": "KTRZ Monokai Light",
+        "path": "terminal/ktrz-monokai-light.json"
       }
     ]
   },
