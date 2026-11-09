@@ -11,7 +11,7 @@ Themes:
   variant, so this keeps the Monokai hue families but darkens them for readable
   contrast on a light background.
 
-Requires Orca `>= 1.4.245`.
+Requires Orca `>= 1.4.246`.
 
 ## Install
 
